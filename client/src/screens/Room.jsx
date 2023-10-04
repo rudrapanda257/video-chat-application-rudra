@@ -1,7 +1,23 @@
 import React, { useEffect, useCallback, useState } from "react";
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import ReactPlayer from "react-player";
 import peer from "../service/peer";
 import { useSocket } from "../context/SocketProvider";
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+
+
+import Navbar from "../components/Navbar.jsx";
+import Slide from "../components/slide.jsx";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
+import Message from "../components/message.jsx";
+
+
+
 
 const RoomPage = () => {
   const socket = useSocket();
@@ -110,36 +126,101 @@ const RoomPage = () => {
   ]);
 
   return (
-    <div>
-      <h1>Room Page</h1>
-      <h4>{remoteSocketId ? "Connected" : "No one in room"}</h4>
-      {myStream && <button onClick={sendStreams}>Send Stream</button>}
-      {remoteSocketId && <button onClick={handleCallUser}>CALL</button>}
-      {myStream && (
+   
+    <div >
+      
+      <Navbar  /> 
+      
+      <h3>{remoteSocketId ? "Successfully Connected ✅" : <font face="italic" size="6" color="green">"No one in room ,Atleast Two Members are required to make the Call"</font>}  
+      </h3>
+      <Button variant="contained">{myStream && <button onClick={sendStreams}>CONNECT  👥</button>}</Button>
+  
+      <Button variant="contained" color="success">
+      {remoteSocketId && <button onClick={handleCallUser}>CALL 📞</button>}
+       </Button>
+
+      <br />
+      
+   <Box display="flex" justifyContent="space-between">
+
+      <Card sx={{ maxWidth: 805 ,maxHeight: 600}}>
+      <CardActionArea>
+        <CardMedia
+          
+        />
+        <div>
+        {myStream && (
         <>
-          <h1>My Stream</h1>
-          <ReactPlayer
+        
+       <ReactPlayer
+           
             playing
-            muted
-            height="100px"
-            width="200px"
+            height="530px"
+            width="100%"
+            style={{ marginLeft: 0 }} 
             url={myStream}
           />
         </>
       )}
+        </div>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            MY STREAM 👤
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+          Start a video or voice call
+
+        At the top, search contacts or dial a number. Tap the contact or enter the number. Choose an option: To make a video call, tap Call .
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+
+    <Card sx={{ maxWidth: 805 ,maxHeight: 600}}>
+      <CardActionArea>
+        <CardMedia
+          
+        />
+        <div>
       {remoteStream && (
         <>
-          <h1>Remote Stream</h1>
+          
+         
           <ReactPlayer
             playing
-            muted
-            height="100px"
-            width="200px"
+            
+            height="530px"
+            width="100%"
             url={remoteStream}
           />
         </>
       )}
+      </div>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+          REMOTE STREAM 👤
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+          Start a video or voice call
+         At the top, search contacts or dial a number. Tap the contact or enter the number. Choose an option: To make a video call, tap Call .
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+      
+        
+      
+      
+      
+     </Box> 
+
+
+
+
+
+    
     </div>
+    
   );
 };
 

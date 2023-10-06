@@ -1,7 +1,12 @@
 const { Server } = require("socket.io");
 
-const io = new Server(8000, {
-  cors: true,
+
+
+const io = new Server({
+  cors: {
+    origin: "https://video-chat-application-rudra.onrender.com",
+    methods: ["GET", "POST"],
+  },
 });
 
 const emailToSocketIdMap = new Map();
